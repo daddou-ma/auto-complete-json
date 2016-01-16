@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>autoJSON</title>
+	</head>
+	<link rel="stylesheet" href="./css/style.css">
+	<body>
+
+		<!-- Start (HTML Structure) -->
+		<div id="auto-json">		<!-- a div with an id -->
+			<input type="text" placeholder="Type any thing" id="input" />	<!-- input-->
+			<ul class="auto-list"></ul> 	<!-- the ul to display the list -->
+		</div>
+		<!-- End -->
+		
+		<!-- importing the library -->
+		<script src="../src/auto-json.js"></script>
+
+		<script>
+			// initializing the autoJSON
+			var test1 = new autoJSON('auto-json'); // use the id of the 'div' as parameter
+		</script>
+	</body>
+</html>
