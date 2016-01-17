@@ -24,8 +24,9 @@ var autoJSON = function(tagId)
 
 	// setup function (coonfiguration, ajax call etc ....)
 	function setup() {
-		//TODO: getting configuration form div attributes
-		input.addEventListener("input", onchange, false);			// adding input listener to the input (onchange function as callback)
+		// adding input listener to the input (onchange function as callback)
+		input.addEventListener("input", onchange, false);
+
 		div.addEventListener('keypress', function(e) {			// adding a keypress listener to div to navigate the list (li)
 			switch (e.keyCode) { 				// e.keycode = the key taped
 				
@@ -39,6 +40,10 @@ var autoJSON = function(tagId)
 					navigate('down');	// navigate to the bottom
 				break;
 			}
+		}, false);
+
+		input.addEventListener('click', function() {	// click listener to input to reload the list
+			onchange();			// call onchange function to render a new list
 		}, false);
 	}
 
@@ -63,7 +68,8 @@ var autoJSON = function(tagId)
 			}
 			tempList.sort();		// sorting the tempList (from A to B)
 		}
-		inputValue = val;	// save a copy of the text field value (we use it when navigating)
+
+		inputValue = input.value;	// save a copy of the text field value (we use it when navigating)
 		render(); 		// render the tempList to the vue (HTML)
 	}
 
@@ -82,7 +88,27 @@ var autoJSON = function(tagId)
 			{
 				li = document.createElement("li");							// create a li element
 				li.appendChild(document.createTextNode(tempList[i]));		// giving the value of the string to the innerHTML of li
-				ul.appendChild(li);											// appending the li element to the ul
+				ul.appendChild(li);									// appending the li element to the ul
+			}
+
+			var element = ul.getElementsByTagName('li');			// selecting all li elements
+
+			for (var i = 0; i < element.length; i++) {				// a loop to select all element (element by element)
+
+				// add a mouseover listener to add "active" class to the li over
+				(function(index){
+					element[index].addEventListener('mouseover', function() {
+						currentIndex = index;						// setting the current index accoring to the index of hover li
+						setfocus(false);				// setting the vue according to the hover li index (false to not set the input value)	
+					});
+				})(i);		// sending i as parameter
+
+				// add a click listener to set the input value when clicking an li element
+				(function(index){
+					element[index].addEventListener('click', function() {
+						setValue(index);				// setting the li text as input value
+					});
+				})(i);	// sending i as parameter
 			}
 		}
 		else {
@@ -107,17 +133,23 @@ var autoJSON = function(tagId)
 				currentIndex++;		// position is incrementing (navigating to the bottom)
 			}
 		}
-		setfocus();		 // setting the vue according to the position(currentIndex)
+
+		setfocus(true);		 // setting the vue according to the position(currentIndex) (true to set the input value while navigating)
 	}
 
 	// function to set the vue according to the position(currentIndex) & giving it a class = "active"
-	function setfocus() {
+	function setfocus(setInputValue) {
 		var li = ul.getElementsByTagName('li');		// select all the li inside the ul
+
 		for(var i = 0; i < li.length; i++) {		// a loop to initialize all the li class to ""
 			li[i].className = "";					// remove classes from li
 		}
+
 		li[currentIndex].className = "active";		// give the selected li a class = "active"
-		input.value = li[currentIndex].innerHTML;	// and setting the value of the text field to the inner text of the selected li
+
+		if (setInputValue == true) {	// if true set the value of the input value to the selected li
+			input.value = li[currentIndex].textContent;	// and setting the value of the text field to the inner text of the selected li
+		}
 	}
 
 	// setting the value of the text field when selection an element(by pressing enter + or mouse click) 
@@ -125,8 +157,9 @@ var autoJSON = function(tagId)
 	function setValue(index){		
 		if (currentIndex != -1) {					// if currentIndex == -1 so there is not element to select
 			var li = ul.getElementsByTagName('li');	// selecto all li's
-			input.value = li[index].innerHTML;		// setting the text of li[index] to the text field
+			input.value = li[index].textContent;		// setting the text of li[index] to the text field
 		}
+
 		inputValue = input.value 					// save a copy of the text field value 
 		currentIndex = -1;							// return the position to the default -1
 		tempList = [];								// empty the tempList
