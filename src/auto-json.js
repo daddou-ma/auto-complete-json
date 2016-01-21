@@ -6,15 +6,22 @@
  * Not yet
  * (c) 2016, Mohamed El Amine DADDOU
  */
-var autoJSON = function(tagId)
+
+//var autoJSON = function(tagId, template, jsonText, objectName, primaryIndex)
+var autoJSON = function(autoObject)
 {
 	"use strict";
 
-	var div = document.getElementById(tagId);			// div element 
+	var div = document.getElementById(autoObject.formId);			// div element 
 	var input = div.getElementsByTagName('input')[0];	// input element (i used 0 to select the first one)
 	var ul = div.getElementsByTagName('ul')[0];			// ul element to append list on changing the input text
+	var template = document.getElementById(autoObject.templateId).innerHTML;		// template innerHTML
 
-	var dataList = ['java', 'c++', 'ruby', 'ada', 'php', 'javascript'];		// an Array for the first test
+	var primaryIndex = autoObject.primaryKey;		// the key used as primary
+	var objectName = autoObject.objectName;			// object name
+	var dataList = autoObject.json;		// an Array of objects
+	dataList = JSON.parse(dataList)[objectName];		// getting the list of objects from the JSON obejct
+
 	var tempList = [];														// temp Array to push element to display
 	var inputValue;					// a temp variable to stock a copy of the text field value
 
@@ -43,6 +50,7 @@ var autoJSON = function(tagId)
 		}, false);
 
 		input.addEventListener('click', function() {	// click listener to input to reload the list
+			currentIndex = -1;
 			onchange();			// call onchange function to render a new list
 		}, false);
 	}
@@ -60,9 +68,9 @@ var autoJSON = function(tagId)
 			// a loop to compare all the array element with the input value
 			for (var i = 0; i < dataList.length; i++)
 			{
-				str = new String(dataList[i].toUpperCase()); 	// putting an element of dataList into str (uppercase just for searching)
+				str = new String(dataList[i][primaryIndex].toUpperCase()); 	// putting an element of dataList into str (uppercase just for searching)
 
-				if (str.search(val) >= 0) {				// verify if the typed text is part of Strings in Array
+				if (str.search(val) == 0) {				// verify if the typed text is part of Strings in Array
 					tempList.push(dataList[i]);			// push the String in the tempList
 				}
 			}
@@ -87,7 +95,7 @@ var autoJSON = function(tagId)
 			for (var i = 0; i < tempList.length; i++)
 			{
 				li = document.createElement("li");							// create a li element
-				li.appendChild(document.createTextNode(tempList[i]));		// giving the value of the string to the innerHTML of li
+				li.innerHTML = getModel(i);
 				ul.appendChild(li);									// appending the li element to the ul
 			}
 
@@ -148,7 +156,7 @@ var autoJSON = function(tagId)
 		li[currentIndex].className = "active";		// give the selected li a class = "active"
 
 		if (setInputValue == true) {	// if true set the value of the input value to the selected li
-			input.value = li[currentIndex].textContent;	// and setting the value of the text field to the inner text of the selected li
+			input.value = tempList[currentIndex][primaryIndex];	// and setting the value of the text field to the inner text of the selected li
 		}
 	}
 
@@ -157,7 +165,7 @@ var autoJSON = function(tagId)
 	function setValue(index){		
 		if (currentIndex != -1) {					// if currentIndex == -1 so there is not element to select
 			var li = ul.getElementsByTagName('li');	// selecto all li's
-			input.value = li[index].textContent;		// setting the text of li[index] to the text field
+			input.value = tempList[index][primaryIndex];		// setting the text of li[index] to the text field
 		}
 
 		inputValue = input.value 					// save a copy of the text field value 
@@ -165,4 +173,36 @@ var autoJSON = function(tagId)
 		tempList = [];								// empty the tempList
 		render();									// apply render to clear the list ul
 	}
+
+	// parsing the template to an usable html in the list
+	function getModel(id) {
+		var temp = template;	// temp is the inner html of the template
+		var keys = Object.keys(tempList[id]);	// getting the obejct keys
+
+		temp = temp.replace(/\s/g,"");		// deleting all spaces in the template
+
+		// a loop to replace all kaywords by there values
+		for (var i = 0; i < keys.length; i++)
+		{
+			temp = temp.replace("{{this." + keys[i] + "}}", tempList[id][keys[i]]);
+		}
+		return temp; // return the html to display it in the list
+	}
+}
+
+// function to get json from a link
+function getJsonFromUrl(link) {
+	var xmlhttp = new XMLHttpRequest();
+
+	var dataJSON;
+
+
+	xmlhttp.onreadystatechange = function() {
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			dataJSON = xmlhttp.responseText;
+		}
+	};
+	xmlhttp.open("GET", link, false);
+	xmlhttp.send();
+	return dataJSON;
 }

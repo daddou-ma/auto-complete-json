@@ -40,6 +40,17 @@ body {
 	line-height: 34px;
 	padding: 0px 10px;
 }
+#auto-json ul li span:nth-child(2) {
+    float: right;
+    background: rgb(91, 206, 91) none repeat scroll 0% 0%;
+    line-height: 20px;
+    font-size: 11px;
+    padding: 1px 7px;
+    color: rgb(255, 255, 255);
+    border-radius: 11px;
+    margin: 6px;
+}
+
 #auto-json ul li.active {
 	background: rgb(126, 199, 252) none repeat scroll 0% 0%;
 	color: rgb(255, 255, 255);

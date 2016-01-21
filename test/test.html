@@ -5,6 +5,11 @@
 	</head>
 	<link rel="stylesheet" href="./css/style.css">
 	<body>
+		
+		<script id="template" type="text/template">
+			<span>{{this.name}}</span>
+			<span>{{this.id}}</span>
+		</script>
 
 		<!-- Start (HTML Structure) -->
 		<div id="auto-json">		<!-- a div with an id -->
@@ -17,8 +22,15 @@
 		<script src="../src/auto-json.js"></script>
 
 		<script>
-			// initializing the autoJSON
-			var test1 = new autoJSON('auto-json'); // use the id of the 'div' as parameter
+
+			var test1 = new autoJSON({
+				formId: 		'auto-json',		//div id
+				templateId: 	'template',			// template id
+				json: 		 	getJsonFromUrl("languages.json"),			// function to get json as text
+				objectName: 	'languages',		// name of object
+				primaryKey: 	'name'				// primary key (for search)
+			});
+
 		</script>
 	</body>
 </html>

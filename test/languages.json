@@ -1,0 +1,76 @@
+{
+	"languages": [
+		{
+			"id": "1",
+			"name": "Ada"
+		},
+		{
+			"id": "2",
+			"name": "Asp"
+		},
+		{
+			"id": "3",
+			"name": "Python"
+		},
+		{
+			"id": "4",
+			"name": "HTML"
+		},
+		{
+			"id": "5",
+			"name": "C++"
+		},
+		{
+			"id": "6",
+			"name": "C"
+		},
+		{
+			"id": "7",
+			"name": "Java"
+		},
+		{
+			"id": "8",
+			"name": "JavaScript"
+		},
+		{
+			"id": "9",
+			"name": "PHP"
+		},
+		{
+			"id": "10",
+			"name": "Ruby"
+		},
+		{
+			"id": "11",
+			"name": "Lisp"
+		},
+		{
+			"id": "12",
+			"name": "Pascal"
+		},
+		{
+			"id": "13",
+			"name": "NodeJS"
+		},
+		{
+			"id": "14",
+			"name": "Assembly"
+		},
+		{
+			"id": "15",
+			"name": "C#"
+		},
+		{
+			"id": "16",
+			"name": "erlang"
+		},
+		{
+			"id": "17",
+			"name": "Prolog"
+		},
+		{
+			"id": "18",
+			"name": "XML"
+		}
+	]
+}
