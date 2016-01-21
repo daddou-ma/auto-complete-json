@@ -7,7 +7,6 @@
  * (c) 2016, Mohamed El Amine DADDOU
  */
 
-//var autoJSON = function(tagId, template, jsonText, objectName, primaryIndex)
 var autoJSON = function(autoObject)
 {
 	"use strict";
