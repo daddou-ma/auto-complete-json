@@ -7,7 +7,7 @@ of files from a server
 ## Exemple of usage
 
 ### HTML
-```
+```html
 <!-- an HTML Template -->
 <script id="template" type="text/template">
 	<span>{{this.name}}</span>
@@ -37,7 +37,7 @@ of files from a server
 ```
 
 ### JSON
-```
+```json
 {
 	"languages": [
 		{
@@ -61,7 +61,7 @@ of files from a server
 ```
 
 ### CSS (Optional)
-```
+```css
 body {
 	background: #E1E1E1;
 	padding: 25px 0;
